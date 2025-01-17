@@ -20,12 +20,17 @@ app.get("/", function (req, res) {
 
 
 // your first API endpoint... 
+app.get("/api", function (req, res) {
+  let date = new Date();
+  res.end(`{"unix": ${date.getTime()}, "utc": "${date.toUTCString()}"}`);
+});
+
 app.get("/api/*", function (req, res) {
     let input = req.url.substring(req.url.lastIndexOf('/') + 1);
     let date = isNaN(+input) ? new Date(input) : new Date(+input);
     if(isNaN(date.getTime()))
     {
-      res.end("{ error : \"Invalid Date\" }");
+      res.end("{ \"error\" : \"Invalid Date\" }");
       return;
     }
     res.end(`{"unix": ${date.getTime()}, "utc": "${date.toUTCString()}"}`);
